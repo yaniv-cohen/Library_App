@@ -11,6 +11,30 @@
     ],
     "description": "A\r\nhandbook of agile software craftsmanship."
   },
+    {
+    "id": "b1ada",
+    "title": "Dirty Code",
+    "author": "Robert C.\r\nMartin",
+    "year": 2008,
+    "rating": 4.6,
+    "tags": [
+      "tech",
+      "non-fiction"
+    ],
+    "description": "A\r\nhandbook of agile software craftsmanship."
+  },
+      {
+    "id": "b112312",
+    "title": "Dirty Code",
+    "author": "Robert C.\r\nMartin",
+    "year": 2008,
+    "rating": 4.7,
+    "tags": [
+      "tech",
+      "non-fiction"
+    ],
+    "description": "A\r\nhandbook of agile software craftsmanship."
+  },
   {
     "id": "b2",
     "title": "The Pragmatic Programmer",
