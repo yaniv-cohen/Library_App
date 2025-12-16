@@ -7,44 +7,20 @@ import {
   Book,
   DESC,
   Filter,
+  RatingFilter,
+  TagFilter,
   Sort,
   SORTBY_RATING,
   SORTBY_TITLE,
   Tag,
 } from "./types";
 import OptionsCard from "./components/OptionsCard";
-
-function sortByTitle(a: Book, b: Book, direction: string): number {
-  let dir = direction === ASC ? 1 : -1;
-  if (a.title < b.title) return dir;
-  if (a.title > b.title) return -dir;
-  return 0;
-}
-
-function sortByRating(a: Book, b: Book, direction: string): number {
-  let dir = direction === ASC ? 1 : -1;
-  if (a.rating < b.rating) return dir;
-  if (a.rating > b.rating) return -dir;
-  return 0;
-}
-
-const DEFAULT_SORT: Array<Sort> = [
-  { method: SORTBY_TITLE, direction: ASC, fnc: sortByTitle },
-  { method: SORTBY_RATING, direction: ASC, fnc: sortByRating },
-];
-
-const DEFAULT_FILTER: Filter = {
-  selectedTags: new Set<Tag>([
-    "tech",
-    "non-fiction",
-    "fiction",
-    "fantasy",
-    "history",
-    "self-help",
-    "science",
-  ]),
-  ratingFilter: {},
-};
+import {
+  DEFAULT_FILTER,
+  DEFAULT_SORT,
+  DEFAULT_TAG_FILTER,
+} from "./defaultValues";
+import SortBar from "./components/SortBar";
 
 //Should be any, but specific requirments prevent it
 function moveSortToFrontByMethod(arr: Array<Sort>, value: string) {
@@ -99,51 +75,76 @@ function App() {
 
   function handleToggleTagFilter(tag: Tag) {
     setFilters((prevFilters) => {
-      // 1. Create a COPY of the Set
-      const newTags = new Set(prevFilters.selectedTags);
+      // 1. Create a COPY of the Filter
+      const currentSelectedTags = prevFilters.tagFilter.selectedTags;
+      const newTags = new Set(currentSelectedTags);
 
-      // 2. Modify the copy
+      if (newTags.size == 1 && newTags.has(tag)) {
+        //if no tags selected, select all first
+        return {
+          ...prevFilters, // Copy other filter properties (like ratingFilter)
+          tagFilter: {
+            ...prevFilters.tagFilter,
+            selectedTags: new Set(DEFAULT_TAG_FILTER.selectedTags),
+          },
+        };
+      }
       if (newTags.has(tag)) {
+        // 2. Modify the copy
         newTags.delete(tag);
       } else {
         newTags.add(tag);
       }
 
-      // 3. Return a NEW object containing the new Set
       return {
-        ...prevFilters, // Copy other filter properties (like ratingFilter)
-        selectedTags: newTags,
+        ...prevFilters,
+        tagFilter: {
+          ...prevFilters.tagFilter,
+          selectedTags: newTags, // Return the new Set
+        },
       };
     });
   }
-  function handleSetMinRating(num: number | undefined) {
-    if (num && filters.ratingFilter.max && num > filters.ratingFilter.max!) {
-      num = undefined;
+  function handleSetMinRating(num: number) {
+    let newMin = num;
+    let newMax = filters.ratingFilter.max;
+    if (num > filters.ratingFilter.max) {
+      return;
+      //either switch or ignore
+      newMin = filters.ratingFilter.max;
+      newMax = num;
     }
     setFilters((prevFilters) => {
-      // 1. Create a COPY of the Set
-      const newRatingFilter = { ...prevFilters.ratingFilter };
+      // Create a COPY of the Set
+      const newRatingFilter = {
+        ...prevFilters.ratingFilter,
+        min: newMin,
+        max: newMax,
+      };
 
-      // 2. Modify the copy
-      newRatingFilter.min = num;
-      // 3. Return a NEW object containing the new Set
+      // Return a NEW object containing the new Set
       return {
         ...prevFilters, // Copy other filter properties (like ratingFilter)
         ratingFilter: newRatingFilter,
       };
     });
   }
-  function handleSetMaxRating(num: number | undefined) {
-    if (num && filters.ratingFilter.max && num > filters.ratingFilter.min!) {
-      num = undefined;
+  function handleSetMaxRating(num: number) {
+    let newMin = filters.ratingFilter.min;
+    let newMax = num;
+    if (num && filters.ratingFilter.min && num < filters.ratingFilter.min) {
+      return;
+      newMin = num;
+      newMax = filters.ratingFilter.min;
     }
     setFilters((prevFilters) => {
-      // 1. Create a COPY of the Set
-      const newRatingFilter = { ...prevFilters.ratingFilter };
-
-      // 2. Modify the copy
-      newRatingFilter.max = num;
-      // 3. Return a NEW object containing the new Set
+      // Create a COPY of the Set
+      const newRatingFilter = {
+        ...prevFilters.ratingFilter,
+        min: newMin,
+        max: newMax,
+      };
+      // Return a NEW object containing the new Set
       return {
         ...prevFilters, // Copy other filter properties (like ratingFilter)
         ratingFilter: newRatingFilter,
@@ -157,56 +158,54 @@ function App() {
     setFilters((prevFilters) => {
       return {
         ...prevFilters,
-        selectedTags: new Set<Tag>(DEFAULT_FILTER.selectedTags),
+        tagFilter: DEFAULT_TAG_FILTER,
       };
     });
+  }
+  function resetFilters() {
+    setFilters(DEFAULT_FILTER);
   }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Welcome to the Library:</h1>
+      <h1>Welcome to the Library:</h1>
 
-        <OptionsCard
-          filters={filters}
-          toggleTitleDir={handleToggleTitleDirection}
-          toggleRatingDir={handleToggleRatingDirection}
-          handleToggleTagFilter={handleToggleTagFilter}
-          resetTagFilters={resetTagFilters}
-          titleSearchValue={titleSearchValue}
-          setTitleSearchValue={setTitleSearchValue}
-          authorSearchValue={authorSearchValue}
-          setAuthorSearchValue={setAuthorSearchValue}
-          showFavoritesOnly={showFavoritesOnly}
-          toggleShowFavoritesOnly={toggleShowFavoritesOnly}
-          //TODO: Addmin max rating filter controls
-          setMinRatingFilter={handleSetMinRating}
-          setMaxRatingFilter={handleSetMaxRating}
-        />
-
+      <OptionsCard
+        filters={filters}
+        toggleTitleDir={handleToggleTitleDirection}
+        toggleRatingDir={handleToggleRatingDirection}
+        handleToggleTagFilter={handleToggleTagFilter}
+        // resetTagFilters={resetTagFilters}
+        resetFilters={resetFilters}
+        titleSearchValue={titleSearchValue}
+        setTitleSearchValue={setTitleSearchValue}
+        authorSearchValue={authorSearchValue}
+        setAuthorSearchValue={setAuthorSearchValue}
+        showFavoritesOnly={showFavoritesOnly}
+        toggleShowFavoritesOnly={toggleShowFavoritesOnly}
+        //TODO: Addmin max rating filter controls
+        setMinRatingFilter={handleSetMinRating}
+        setMaxRatingFilter={handleSetMaxRating}
+      />
+      <main>
         <BookList
           filters={filters}
           sortOrder={sortOrder}
           titleSearchValue={titleSearchValue}
           authorSearchValue={authorSearchValue}
           showFavoritesOnly={showFavoritesOnly}
-        />
-      </header>
-
-      <footer>
-        <p>
-          {JSON.stringify(sortOrder, (key, value) =>
-            // If the value is a Set, convert it to an Array just for printing
-            value instanceof Set ? "" : value
-          )}
-        </p>
-
-        <div>
-          {Array.from(filters.selectedTags).map((tag) => (
-            <p key={tag}>{tag}</p> // Don't forget the 'key' prop!
-          ))}
-        </div>
-      </footer>
+        >
+          <SortBar
+            toggleTitleDir={handleToggleTitleDirection}
+            toggleRatingDir={handleToggleRatingDirection}
+            authorSearchValue={authorSearchValue}
+            setAuthorSearchValue={setAuthorSearchValue}
+            titleSearchValue={titleSearchValue}
+            setTitleSearchValue={setTitleSearchValue}
+            sortOrder={sortOrder}
+          />
+        </BookList>
+      </main>
     </div>
   );
 }

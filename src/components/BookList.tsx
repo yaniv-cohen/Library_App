@@ -1,47 +1,49 @@
-import { useEffect, useMemo, useState } from "react";
-import { Book, Filter, Sort } from "../types";
-import { log } from "console";
+import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
+import { ASC, Book, Filter, Sort } from "../types";
 import BookEntry from "./BookEntry";
 
-const BookList = ({
-  filters,
-  sortOrder,
-  titleSearchValue,
-  authorSearchValue,
-  showFavoritesOnly
-}: {
+interface BooksList {
   filters: Filter;
   sortOrder: Sort[];
   titleSearchValue: string;
   authorSearchValue: string;
   showFavoritesOnly: boolean;
+}
+
+const BookList: FC<PropsWithChildren<BooksList>> = ({
+  filters,
+  sortOrder,
+  titleSearchValue,
+  authorSearchValue,
+  showFavoritesOnly,
+  children,
 }) => {
   const [entries, setEntries] = useState<Array<Book>>([]);
-  const [filteredEntries, setFilteredEntries] = useState<Array<Book>>([]);
   const [favoriteBookIds, setFavoriteBookIds] = useState<Set<string>>(
     new Set()
   );
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   async function fetchBooks() {
-    let path = "/books.json";
-    fetch(path)
-      .then((response) => response.json()) // Parse the response body as JSON
-      .then((data) => {
-        if (titleSearchValue) {
-          data.filter((book: Book) => {
-            return book.title.includes(titleSearchValue);
-          });
-        }
-        if (authorSearchValue) {
-          data.filter((book: Book) => {
-            return book.author.includes(authorSearchValue);
-          });
-        }
-        console.log(data);
-        setEntries(data);
-        console.log(entries);
-      })
-      .catch((error) => console.error("Error fetching JSON:", error));
+    setIsLoading(true); // Start loading
+    setError(null); // Clear previous errors
+
+    try {
+      let path = "/books.json";
+      const response = await fetch(path);
+      const wa = new Promise((resolve) => setTimeout(resolve, 1500)); //simulate loading time
+      await wa;
+      if (!response.ok) {
+        throw new Error(`error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setEntries(data);
+    } catch (err) {
+      setError(`Failed to load books. Details: ${(err as Error).message}`);
+    } finally {
+      setIsLoading(false); // Stop loading regardless of success/failure
+    }
   }
 
   async function fetchFavoriteBooks() {
@@ -54,25 +56,13 @@ const BookList = ({
     }
   }
 
-
   //TODO: handle errors properly and loading state
   useEffect(() => {
-    try {
-      fetchBooks();
-    } catch (e) {
-      console.error("Error fetching books:", e);
-    }
-    
-    try {
-      fetchFavoriteBooks();
-    } catch (e) {
-      console.error("Error favorite Books:", e);
-    }
+    fetchBooks();
+    fetchFavoriteBooks();
   }, []);
 
   const visibleBooks = useMemo(() => {
-    console.log("searching: ", titleSearchValue, authorSearchValue);
-
     let serachEntries = [...entries];
     if (titleSearchValue) {
       serachEntries = serachEntries.filter((book: Book) => {
@@ -89,47 +79,36 @@ const BookList = ({
       });
     }
 
-    //using the rating filter
-    let filterByMin = filters.ratingFilter.min !== undefined;
-    let filterByMax = filters.ratingFilter.max !== undefined;
-
     //this can be done for arbitrary number of filters, but for now we have only 2
     //can use the same approach like sorting, of having an array of filter functions
     let filteredEntriesByTag = serachEntries.filter((book) => {
       //tag filter
-      if (filters.selectedTags.size > 0) {
-        const hasTag = Array.from(filters.selectedTags).some((tag) => {
-          return book.tags.includes(tag);
-        });
-        if (!hasTag) {
-          return false;
-        }
-      }
-
-      //rating filter
-      let filteredEntriesByRatingAndTag;
-      if (
-        filters.ratingFilter.min !== undefined &&
-        filters.ratingFilter.max !== undefined
-      ) {
-        filteredEntriesByRatingAndTag = filteredEntriesByTag.filter((book) => {
-          if (
-            book.rating === undefined ||
-            (filterByMin && book.rating < filters.ratingFilter.min!) ||
-            (filterByMax && book.rating > filters.ratingFilter.max!)
-          ) {
-            return false;
-          }
-        });
-      } else {
-      }
-      return true;
+      return filters.tagFilter.fnc(book.tags, filters.tagFilter.selectedTags);
     });
 
-    let sortedEntries = [...filteredEntriesByTag].sort((a, b) => {
+    //rating filter
+    let filteredEntriesByRatingAndTag;
+    if (filters.ratingFilter.min !== 0 || filters.ratingFilter.max !== 5) {
+      filteredEntriesByRatingAndTag = filteredEntriesByTag.filter((book) => {
+        return filters.ratingFilter.fnc(book.rating, {
+          min: filters.ratingFilter.min,
+          max: filters.ratingFilter.max,
+        });
+      });
+    } else {
+      filteredEntriesByRatingAndTag = filteredEntriesByTag;
+    }
+
+    //favorites filter
+    if (showFavoritesOnly) {
+      filteredEntriesByRatingAndTag = filteredEntriesByRatingAndTag.filter(
+        (book) => favoriteBookIds.has(book.id)
+      );
+    }
+    let sortedEntries = [...filteredEntriesByRatingAndTag].sort((a, b) => {
       let out = 0;
       //TODO: check further optimization here
-      for (let i = 0; i <= sortOrder.length - 1; i++) {
+      for (let i = 0; i < sortOrder.length; i++) {
         //starting from most to least significant
         let sortOption = sortOrder[i];
         out = sortOption.fnc(a, b, sortOption.direction);
@@ -141,9 +120,10 @@ const BookList = ({
     });
 
     return sortedEntries;
-  }, [entries, filters, sortOrder, titleSearchValue, authorSearchValue]);
+    //  return filteredEntriesByRatingAndTag;
+  }, [entries, filters, sortOrder, titleSearchValue, authorSearchValue, showFavoritesOnly]);
 
-  function toggleFavorite(bookId: string): boolean {
+  function toggleFavorite(bookId: string): void {
     const newFavorites = new Set(favoriteBookIds);
     if (newFavorites.has(bookId)) {
       newFavorites.delete(bookId);
@@ -155,23 +135,38 @@ const BookList = ({
       JSON.stringify(Array.from(newFavorites))
     );
     setFavoriteBookIds(newFavorites);
-    return true;
   }
+
+  if (isLoading) {
+    return <h2>📚 Loading book data...</h2>;
+  }
+
+  if (error) {
+    return <h2 style={{ color: "red" }}>🚨 Error loading library: {error}</h2>;
+  }
+
   if (visibleBooks.length === 0) {
     return <h2>No books found matching your criteria.</h2>;
   }
+
   return (
-    <ul>
-      {visibleBooks.map((book) => (
-        <BookEntry
-          key={book.id}
-          book={book}
-          isFavorite={favoriteBookIds.has(book.id)}
-          toggleFavorite={toggleFavorite}
-          showFavoritesOnly={showFavoritesOnly}
-        />
-      ))}
-    </ul>
+    <div>
+      <div className="horizontal-spaced">
+        <h2>{"Found " + visibleBooks.length + " books"}</h2>
+        {children}
+      </div>
+      <ul>
+        {visibleBooks.map((book) => (
+          <BookEntry
+            key={book.id}
+            book={book}
+            isFavorite={favoriteBookIds.has(book.id)}
+            toggleFavorite={toggleFavorite}
+            showFavoritesOnly={showFavoritesOnly}
+          />
+        ))}
+      </ul>
+    </div>
   );
 };
 

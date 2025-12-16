@@ -3,16 +3,20 @@ import { Tag } from "../types";
 
 const Filters = ({
   selectedTags,
+  ratingFilterMin,
+  ratingFilterMax,
   handleToggleTagFilter,
-  resetTagFilters,
+  resetFilters,
   setMinRatingFilter,
   setMaxRatingFilter,
 }: {
   selectedTags: Set<Tag>;
+  ratingFilterMin: number;
+  ratingFilterMax: number;
   handleToggleTagFilter: { (tag: Tag): void };
-  resetTagFilters: { (): void };
-  setMinRatingFilter: { (num: number | undefined): void };
-  setMaxRatingFilter: { (num: number | undefined): void };
+  resetFilters: { (): void };
+  setMinRatingFilter: { (num: number): void };
+  setMaxRatingFilter: { (num: number): void };
 }) => {
   const [tagNameOptionsToFilter, setTagNameOptionsToFilter] = useState<
     Array<Tag>
@@ -28,70 +32,87 @@ const Filters = ({
     // )
 
     // TODO: fix hardcoding for now
-    setTagNameOptionsToFilter([
-      "tech",
-      "non-fiction",
-      "fiction",
-      "fantasy",
-      "history",
-      "self-help",
-      "science",
-    ]);
+    setTagNameOptionsToFilter(
+      // DEFAULT_TAG_FILTER.selectedTags as Array<Tag>
+
+      [
+        "tech",
+        "non-fiction",
+        "fiction",
+        "fantasy",
+        "history",
+        "self-help",
+        "science",
+      ]
+    );
   }, []);
 
   return (
-    <ul>
-      {tagNameOptionsToFilter.map((tag) => {
-        //capitalize tag for display
-        const myTag: Tag = tag;
-        const upper = myTag.toUpperCase();
-        return (
-          <li key={tag}>
-            <button
-              onClick={() => handleToggleTagFilter(tag)}
-              className={selectedTags.has(tag) ? "on" : "off"}
-            >
-              {upper}
-            </button>
-          </li>
-        );
-      })}
-      <button onClick={() => resetTagFilters()}>Reset Tag Filters</button>
-      <div>
-        <label>Min Rating:</label>
-        <input
-          type="number"
-          min={0}
-          max={5}
-          step={0.5}
-          onChange={(e) => {
-            const val = e.target.value;
-            if (val === "") {
-              setMinRatingFilter(undefined);
-            } else {
-              setMinRatingFilter(Number(val));
-            }
-          }}
-        />
+    <div>
+      <div className="horizontal-centered">
+        <h2>Filter:</h2>
+        <ul className="vertical-centered">
+          <div>
+            <label>Min Rating:</label>
+            <input
+              type="number"
+              min={0}
+              max={5}
+              step={0.5}
+              value={ratingFilterMin !== undefined ? ratingFilterMin : ""}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === "") {
+                  setMinRatingFilter(Number(0));
+                } else {
+                  setMinRatingFilter(Number(val));
+                }
+              }}
+            />
+          </div>
+          <div>
+            <label>Max Rating:</label>
+            <input
+              type="number"
+              min={0}
+              max={5}
+              step={0.5}
+              value={ratingFilterMax !== undefined ? ratingFilterMax : ""}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === "") {
+                  setMaxRatingFilter(5);
+                } else {
+                  setMaxRatingFilter(Number(val));
+                }
+              }}
+            />
+          </div>
+        </ul>
+
+        <ul>
+          {tagNameOptionsToFilter.map((tag) => {
+            //capitalize tag for display
+            const myTag: Tag = tag;
+            const upper = myTag.toUpperCase();
+            return (
+              <li key={tag}>
+                <button
+                  onClick={() => {
+                    console.log(tag, selectedTags);
+                    handleToggleTagFilter(tag);
+                  }}
+                  className={selectedTags.has(tag) ? "on" : "off"}
+                >
+                  {upper}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+        <button onClick={() => resetFilters()}>Reset Filters</button>
       </div>
-            <div>
-        <label>Max Rating:</label>
-        <input
-          type="number"
-          min={0}
-          max={5}
-          step={0.5}
-          onChange={(e) => {
-            const val = e.target.value;
-            if (val === "") {
-              setMinRatingFilter(undefined);
-            } else {
-              setMinRatingFilter(Number(val));
-            }
-          }}
-        />
-      </div>
-    </ul>
+    </div>
   );
 };
 

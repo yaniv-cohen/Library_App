@@ -2,17 +2,15 @@ import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import Filters from "./Filters";
 import SortBar from "./SortBar";
-import { Filter, Tag } from "../types";
+import { Filter, Sort, Tag } from "../types";
+import { useDebounce } from "../hooks/useDebounce";
+import { SEARCH_DELAY } from "../defaultValues";
 
 const OptionsCard = ({
   filters,
-  toggleTitleDir,
-  toggleRatingDir,
   handleToggleTagFilter,
-  resetTagFilters,
-  titleSearchValue,
+  resetFilters,
   setTitleSearchValue,
-  authorSearchValue,
   setAuthorSearchValue,
   showFavoritesOnly,
   toggleShowFavoritesOnly,
@@ -23,64 +21,65 @@ const OptionsCard = ({
   toggleTitleDir: { (): void };
   toggleRatingDir: { (): void };
   handleToggleTagFilter: { (tag: Tag): void };
-  resetTagFilters: { (): void };
+  resetFilters: { (): void };
   titleSearchValue: string;
   setTitleSearchValue: { (text: string): void };
   authorSearchValue: string;
   setAuthorSearchValue: { (text: string): void };
   showFavoritesOnly: boolean;
   toggleShowFavoritesOnly: { (): void };
-  setMinRatingFilter: { (num: number | undefined): void };
-  setMaxRatingFilter: { (num: number | undefined): void };
+  setMinRatingFilter: { (num: number): void };
+  setMaxRatingFilter: { (num: number): void };
 }) => {
   const [typedTitleSearchValue, setTypedTitleSearchValue] =
     useState<string>("");
   const [typedAuthorSearchValue, setTypedAuthorSearchValue] =
     useState<string>("");
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      setTitleSearchValue(typedTitleSearchValue);
-    }, 400);
-    console.log("change", typedTitleSearchValue);
-    return () => clearTimeout(delayDebounceFn);
-  }, [typedTitleSearchValue]);
+  const debouncedTitle = useDebounce(typedTitleSearchValue, SEARCH_DELAY);
+  const debouncedAuthor = useDebounce(typedAuthorSearchValue, SEARCH_DELAY);
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      setAuthorSearchValue(typedAuthorSearchValue);
-    }, 400);
-    console.log("change", typedAuthorSearchValue);
-    return () => clearTimeout(delayDebounceFn);
-  }, [typedAuthorSearchValue]);
+    setTitleSearchValue(debouncedTitle);
+  }, [debouncedTitle, setTitleSearchValue]);
+
+  useEffect(() => {
+    setAuthorSearchValue(debouncedAuthor);
+  }, [debouncedAuthor, setAuthorSearchValue]);
 
   return (
-    <div>
-      <SearchBar
-        typedTitleSearchValue={typedTitleSearchValue}
-        setTypedTitleSearchValue={setTypedTitleSearchValue}
-        typedAuthorSearchValue={typedAuthorSearchValue}
-        setTypedAuthorSearchValue={setTypedAuthorSearchValue}
-      />
+    <header id="optionsHeader">
+      <div className="card">
+        <SearchBar
+          typedTitleSearchValue={typedTitleSearchValue}
+          setTypedTitleSearchValue={setTypedTitleSearchValue}
+          typedAuthorSearchValue={typedAuthorSearchValue}
+          setTypedAuthorSearchValue={setTypedAuthorSearchValue}
+        />
+      </div>
       <Filters
-        selectedTags={filters.selectedTags}
+        selectedTags={filters.tagFilter.selectedTags}
+        ratingFilterMax={filters.ratingFilter.max}
+        ratingFilterMin={filters.ratingFilter.min}
         handleToggleTagFilter={handleToggleTagFilter}
-        resetTagFilters={resetTagFilters}
+        resetFilters={resetFilters}
         setMinRatingFilter={setMinRatingFilter}
         setMaxRatingFilter={setMaxRatingFilter}
       />
-      <SortBar
-        toggleTitleDir={toggleTitleDir}
-        toggleRatingDir={toggleRatingDir}
-        authorSearchValue={authorSearchValue}
-        setAuthorSearchValue={setAuthorSearchValue}
-        titleSearchValue={titleSearchValue}
-        setTitleSearchValue={setTitleSearchValue}
+
+      <input
+        name="favoritesOnlyToggle"
+        type="checkbox"
+        className="checkbox"
+        id="favoritesOnlyToggle"
+        checked={showFavoritesOnly}
+        onChange={toggleShowFavoritesOnly}
       />
-      <button onClick={toggleShowFavoritesOnly}>
-        {showFavoritesOnly ? "Browsing Favorites Only" : "Browsing All Items"}
-      </button>
-    </div>
+      <label htmlFor="favoritesOnlyToggle">
+        Show favorites only:
+        {showFavoritesOnly ? " Yes" : " No"}
+      </label>
+    </header>
   );
 };
 

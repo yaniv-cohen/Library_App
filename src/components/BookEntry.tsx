@@ -8,7 +8,7 @@ const BookEntry = ({
 }: {
   book: Book;
   isFavorite: boolean;
-  toggleFavorite: (bookId: string) => boolean;
+  toggleFavorite: (bookId: string) => void;
   showFavoritesOnly: boolean;
 }) => {
 if(showFavoritesOnly && !isFavorite){
@@ -17,7 +17,7 @@ if(showFavoritesOnly && !isFavorite){
   return (
     <li>
       <b>{book.title} by {book.author} </b>- Rating: {book.rating} ({book.year}) Tags: {book.tags.join(", ")}
-      <button onClick={()=>toggleFavorite(book.id)}>{isFavorite ? "⭐": "."}</button>
+      <button onClick={()=>toggleFavorite(book.id)}>{isFavorite ? "⭐": "✰"}</button>
     </li>
   );
 };

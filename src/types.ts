@@ -38,17 +38,26 @@ export interface Sort {
   fnc: (a: Book, b: Book, direction: string) => number;
 }
 
-type TagFilter = {
-  tag: Tag;
-  enabled: boolean;
-};
+export interface RatingFilter {
+  min: number;
+  max: number;
+  fnc: (
+    num: number,
+    minMax: { min: number | undefined; max: number | undefined }
+  ) => boolean;
+}
 
-type RatingFilter = {
-  min?: number;
-  max?: number;
-};
+export interface TagFilter {
+  selectedTags: Set<Tag>;
+  fnc: (tag: Tag[], selectedTags: Set<Tag>) => boolean;
+}
 
 export interface Filter {
-  selectedTags: Set<Tag>;
+  tagFilter: TagFilter;
   ratingFilter: RatingFilter;
+}
+
+export type PageState = {
+  currentPage: number;
+  itemsPerPage: number;
 }

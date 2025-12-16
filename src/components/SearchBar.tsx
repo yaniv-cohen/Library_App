@@ -11,27 +11,30 @@ function SearchBar({
 }) {
   return (
     <>
-      <li>
-        <label htmlFor="titleTextInput">Search Title</label>
-        <input
-          name="titleTextInput"
-          id="titleTextInput"
-          placeholder="Search Title"
-          onChange={(e) => setTypedTitleSearchValue(e.target.value)}
-          value={typedTitleSearchValue}
-        />
-      </li>
-      <li>
-        <label htmlFor="authorTextInput">Search Author</label>
-        <input
-          name="authorTextInput"
-          id="authorTextInput"
-          placeholder="Search Author"
-          onChange={(e) => setTypedAuthorSearchValue(e.target.value)}
-          value={typedAuthorSearchValue}
-        />
-        {/* <button onClick={()=>{setAuthorSearchValue()}}>Search Author</button> */}
-      </li>
+      <h2>Search:</h2>
+      <ul>
+        <li className="vertical-centered">
+          <label htmlFor="titleTextInput">Search Title:</label>
+          <input
+            name="titleTextInput"
+            id="titleTextInput"
+            placeholder="Search Title"
+            onChange={(e) => setTypedTitleSearchValue(e.target.value)}
+            value={typedTitleSearchValue}
+          />
+        </li>
+        <li className="vertical-centered">
+          <label htmlFor="authorTextInput">Search Author:</label>
+          <input
+            name="authorTextInput"
+            id="authorTextInput"
+            placeholder="Search Author"
+            onChange={(e) => setTypedAuthorSearchValue(e.target.value)}
+            value={typedAuthorSearchValue}
+          />
+          {/* <button onClick={()=>{setAuthorSearchValue()}}>Search Author</button> */}
+        </li>
+      </ul>
     </>
   );
 }
