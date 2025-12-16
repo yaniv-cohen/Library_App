@@ -1,122 +1,629 @@
 [
   {
-    "id": "b1",
-    "title": "Clean Code",
-    "author": "Robert C.\r\nMartin",
-    "year": 2008,
+    "id": "b13",
+    "title": "1984",
+    "author": "George Orwell",
+    "year": 1949,
     "rating": 4.6,
     "tags": [
-      "tech",
-      "non-fiction"
+      "fiction",
+      "dystopian",
+      "classic"
     ],
-    "description": "A\r\nhandbook of agile software craftsmanship."
-  },
-    {
-    "id": "b1ada",
-    "title": "Dirty Code",
-    "author": "Robert C.\r\nMartin",
-    "year": 2008,
-    "rating": 4.6,
-    "tags": [
-      "tech",
-      "non-fiction"
-    ],
-    "description": "A\r\nhandbook of agile software craftsmanship."
-  },
-      {
-    "id": "b112312",
-    "title": "Dirty Code",
-    "author": "Robert C.\r\nMartin",
-    "year": 2008,
-    "rating": 4.7,
-    "tags": [
-      "tech",
-      "non-fiction"
-    ],
-    "description": "A\r\nhandbook of agile software craftsmanship."
+    "description": "A chilling vision of a totalitarian future."
   },
   {
-    "id": "b2",
-    "title": "The Pragmatic Programmer",
-    "author": "Andrew Hunt, David\r\nThomas",
-    "year": 1999,
-    "rating": 4.7,
+    "id": "b14",
+    "title": "The Road",
+    "author": "Cormac McCarthy",
+    "year": 2006,
+    "rating": 4.0,
     "tags": [
-      "tech",
-      "non-fiction"
+      "fiction",
+      "post-apocalyptic"
     ],
-    "description": "P\r\nractical tips for better software development."
+    "description": "A father and son journey across a desolate, ash-covered America."
   },
   {
-    "id": "b3",
-    "title": "Dune",
-    "author": "Frank\r\nHerbert",
-    "year": 1965,
+    "id": "b15",
+    "title": "Design Patterns",
+    "author": "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+    "year": 1994,
+    "rating": 4.3,
+    "tags": [
+      "tech",
+      "software-engineering"
+    ],
+    "description": "Elements of reusable object-oriented software."
+  },
+  {
+    "id": "b16",
+    "title": "Code Complete",
+    "author": "Steve McConnell",
+    "year": 1993,
+    "rating": 4.5,
+    "tags": [
+      "tech",
+      "software-engineering"
+    ],
+    "description": "A practical handbook of software construction."
+  },
+  {
+    "id": "b17",
+    "title": "The Name of the Wind",
+    "author": "Patrick Rothfuss",
+    "year": 2007,
     "rating": 4.5,
     "tags": [
       "fiction",
       "fantasy"
     ],
-    "description": "E\r\npic science fiction saga set on Arrakis."
+    "description": "The first book in The Kingkiller Chronicle."
   },
   {
-    "id": "b4",
-    "title": "Sapiens",
-    "author": "Yuval Noah\r\nHarari",
+    "id": "b18",
+    "title": "Educated",
+    "author": "Tara Westover",
+    "year": 2018,
+    "rating": 4.5,
+    "tags": [
+      "memoir",
+      "non-fiction"
+    ],
+    "description": "A memoir about a young woman who, kept out of school, achieved a PhD."
+  },
+  {
+    "id": "b19",
+    "title": "Thinking, Fast and Slow",
+    "author": "Daniel Kahneman",
+    "year": 2011,
+    "rating": 4.1,
+    "tags": [
+      "psychology",
+      "non-fiction"
+    ],
+    "description": "Exploring the two systems that drive the way we think."
+  },
+  {
+    "id": "b20",
+    "title": "The Martian",
+    "author": "Andy Weir",
     "year": 2011,
     "rating": 4.4,
     "tags": [
-      "history",
-      "non-fiction"
+      "fiction",
+      "science-fiction"
     ],
-    "description": "A brief history of humankind."
+    "description": "An astronaut is stranded on Mars and must rely on his ingenuity to survive."
   },
   {
-    "id": "b5",
-    "title": "Atomic Habits",
-    "author": "James\r\nClear",
+    "id": "b21",
+    "title": "Getting Things Done (GTD)",
+    "author": "David Allen",
+    "year": 2001,
+    "rating": 4.0,
+    "tags": [
+      "self-help",
+      "productivity"
+    ],
+    "description": "The art of stress-free productivity."
+  },
+  {
+    "id": "b22",
+    "title": "Algorithms to Live By",
+    "author": "Brian Christian, Tom Griffiths",
+    "year": 2016,
+    "rating": 4.2,
+    "tags": [
+      "science",
+      "non-fiction",
+      "tech"
+    ],
+    "description": "The computer science of human decisions."
+  },
+  {
+    "id": "b23",
+    "title": "The Shining",
+    "author": "Stephen King",
+    "year": 1977,
+    "rating": 4.3,
+    "tags": [
+      "fiction",
+      "horror"
+    ],
+    "description": "A man's isolation takes a terrifying toll on his family at a remote hotel."
+  },
+  {
+    "id": "b24",
+    "title": "Kafka on the Shore",
+    "author": "Haruki Murakami",
+    "year": 2002,
+    "rating": 4.2,
+    "tags": [
+      "fiction",
+      "magical-realism"
+    ],
+    "description": "Two seemingly unrelated plots weave together in a strange, compelling narrative."
+  },
+  {
+    "id": "b25",
+    "title": "Homo Deus",
+    "author": "Yuval Noah Harari",
+    "year": 2015,
+    "rating": 4.3,
+    "tags": [
+      "history",
+      "non-fiction",
+      "futurism"
+    ],
+    "description": "A brief history of tomorrow."
+  },
+  {
+    "id": "b26",
+    "title": "Where the Crawdads Sing",
+    "author": "Delia Owens",
+    "year": 2018,
+    "rating": 4.4,
+    "tags": [
+      "fiction",
+      "mystery"
+    ],
+    "description": "A coming-of-age story and a mystery set in the North Carolina marshes."
+  },
+  {
+    "id": "b27",
+    "title": "The Gulag Archipelago",
+    "author": "Aleksandr Solzhenitsyn",
+    "year": 1973,
+    "rating": 4.7,
+    "tags": [
+      "history",
+      "non-fiction",
+      "politics"
+    ],
+    "description": "A detailed history of the Soviet forced labor camp system."
+  },
+  {
+    "id": "b28",
+    "title": "Deep Work",
+    "author": "Cal Newport",
+    "year": 2016,
+    "rating": 4.2,
+    "tags": [
+      "self-help",
+      "productivity"
+    ],
+    "description": "Rules for focused success in a distracted world."
+  },
+  {
+    "id": "b29",
+    "title": "Foundation",
+    "author": "Isaac Asimov",
+    "year": 1951,
+    "rating": 4.4,
+    "tags": [
+      "fiction",
+      "science-fiction"
+    ],
+    "description": "The first book in the epic space opera series."
+  },
+  {
+    "id": "b30",
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "year": 1988,
+    "rating": 3.8,
+    "tags": [
+      "fiction",
+      "allegory"
+    ],
+    "description": "A shepherd boy's journey to find treasure and follow his personal legend."
+  },
+  {
+    "id": "b31",
+    "title": "The Selfish Gene",
+    "author": "Richard Dawkins",
+    "year": 1976,
+    "rating": 4.1,
+    "tags": [
+      "science",
+      "non-fiction",
+      "biology"
+    ],
+    "description": "A view of evolution focusing on the gene."
+  },
+  {
+    "id": "b32",
+    "title": "The Book Thief",
+    "author": "Markus Zusak",
+    "year": 2005,
+    "rating": 4.6,
+    "tags": [
+      "fiction",
+      "historical-fiction"
+    ],
+    "description": "A story narrated by Death during World War II."
+  },
+  {
+    "id": "b33",
+    "title": "The Art of War",
+    "author": "Sun Tzu",
+    "year": 500,
+    "rating": 4.0,
+    "tags": [
+      "strategy",
+      "non-fiction",
+      "classic"
+    ],
+    "description": "A military treatise and strategic guide."
+  },
+  {
+    "id": "b34",
+    "title": "Factfulness",
+    "author": "Hans Rosling, Ola Rosling, Anna Rosling Rönnlund",
     "year": 2018,
     "rating": 4.6,
     "tags": [
+      "science",
+      "non-fiction",
+      "data"
+    ],
+    "description": "Ten reasons we're wrong about the world–and why things are better than you think."
+  },
+  {
+    "id": "b35",
+    "title": "Introduction to Algorithms",
+    "author": "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein",
+    "year": 2009,
+    "rating": 4.5,
+    "tags": [
+      "tech",
+      "textbook"
+    ],
+    "description": "The essential guide to algorithms and data structures."
+  },
+  {
+    "id": "b36",
+    "title": "Norwegian Wood",
+    "author": "Haruki Murakami",
+    "year": 1987,
+    "rating": 4.1,
+    "tags": [
+      "fiction",
+      "coming-of-age"
+    ],
+    "description": "A story of loss and sexuality."
+  },
+  {
+    "id": "b37",
+    "title": "Becoming",
+    "author": "Michelle Obama",
+    "year": 2018,
+    "rating": 4.6,
+    "tags": [
+      "memoir",
+      "non-fiction",
+      "politics"
+    ],
+    "description": "The memoir of the former First Lady of the United States."
+  },
+  {
+    "id": "b38",
+    "title": "Neuromancer",
+    "author": "William Gibson",
+    "year": 1984,
+    "rating": 4.0,
+    "tags": [
+      "fiction",
+      "cyberpunk",
+      "science-fiction"
+    ],
+    "description": "A classic novel that defined the cyberpunk genre."
+  },
+  {
+    "id": "b39",
+    "title": "Astrophysics for People in a Hurry",
+    "author": "Neil deGrasse Tyson",
+    "year": 2017,
+    "rating": 4.1,
+    "tags": [
+      "science",
+      "non-fiction",
+      "space"
+    ],
+    "description": "A quick and accessible guide to the cosmos."
+  },
+  {
+    "id": "b40",
+    "title": "Gone Girl",
+    "author": "Gillian Flynn",
+    "year": 2012,
+    "rating": 4.0,
+    "tags": [
+      "fiction",
+      "thriller",
+      "mystery"
+    ],
+    "description": "A psychological thriller about a woman's disappearance."
+  },
+  {
+    "id": "b41",
+    "title": "Rich Dad Poor Dad",
+    "author": "Robert Kiyosaki",
+    "year": 1997,
+    "rating": 4.0,
+    "tags": [
+      "finance",
       "self-help",
       "non-fiction"
     ],
-    "description\r\n": "Building good habits and breaking bad ones."
+    "description": "What the rich teach their kids about money that the poor and middle class do not."
   },
   {
-    "id": "b6",
-    "title": "The Lord of the Rings",
-    "author": "J.R.R.\r\nTolkien",
-    "year": 1954,
-    "rating": 4.8,
+    "id": "b42",
+    "title": "A Song of Ice and Fire: A Game of Thrones",
+    "author": "George R.R. Martin",
+    "year": 1996,
+    "rating": 4.5,
     "tags": [
       "fiction",
-      "fantasy"
+      "fantasy",
+      "epic"
     ],
-    "description": "C\r\nlassic high fantasy adventure."
+    "description": "The first installment of the epic fantasy series."
   },
   {
-    "id": "b7",
-    "title": "The Mythical Man-Month",
-    "author": "Frederick P. Brooks\r\nJr.",
-    "year": 1975,
-    "rating": 4.2,
+    "id": "b43",
+    "title": "The Lean Startup",
+    "author": "Eric Ries",
+    "year": 2011,
+    "rating": 4.1,
     "tags": [
+      "business",
       "tech",
       "non-fiction"
     ],
-    "description": "Essa\r\nys on software engineering."
+    "description": "How today's entrepreneurs use continuous innovation to create radically successful businesses."
   },
   {
-    "id": "b8",
-    "title": "A Brief History of Time",
-    "author": "Stephen\r\nHawking",
-    "year": 1988,
+    "id": "b44",
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "year": 1866,
     "rating": 4.3,
     "tags": [
+      "fiction",
+      "classic",
+      "philosophical"
+    ],
+    "description": "A novel about an impoverished student's moral dilemmas."
+  },
+  {
+    "id": "b45",
+    "title": "The Power of Now",
+    "author": "Eckhart Tolle",
+    "year": 1997,
+    "rating": 4.4,
+    "tags": [
+      "spirituality",
+      "self-help",
+      "non-fiction"
+    ],
+    "description": "A guide to spiritual enlightenment."
+  },
+  {
+    "id": "b46",
+    "title": "A Gentleman in Moscow",
+    "author": "Amor Towles",
+    "year": 2016,
+    "rating": 4.3,
+    "tags": [
+      "fiction",
+      "historical-fiction"
+    ],
+    "description": "A count is sentenced to house arrest in a luxury hotel."
+  },
+  {
+    "id": "b47",
+    "title": "The Code Book",
+    "author": "Simon Singh",
+    "year": 1999,
+    "rating": 4.2,
+    "tags": [
+      "science",
+      "non-fiction",
+      "history"
+    ],
+    "description": "The science of secrecy from ancient Egypt to quantum cryptography."
+  },
+  {
+    "id": "b48",
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "author": "J.K. Rowling",
+    "year": 1997,
+    "rating": 4.7,
+    "tags": [
+      "fiction",
+      "fantasy",
+      "young-adult"
+    ],
+    "description": "The start of the epic wizarding adventure."
+  },
+  {
+    "id": "b49",
+    "title": "The Immortal Life of Henrietta Lacks",
+    "author": "Rebecca Skloot",
+    "year": 2010,
+    "rating": 4.4,
+    "tags": [
+      "science",
+      "non-fiction",
+      "history"
+    ],
+    "description": "The story of HeLa cells and the woman whose life they saved."
+  },
+  {
+    "id": "b50",
+    "title": "Outliers",
+    "author": "Malcolm Gladwell",
+    "year": 2008,
+    "rating": 4.1,
+    "tags": [
+      "sociology",
+      "non-fiction"
+    ],
+    "description": "The story of success."
+  },
+  {
+    "id": "b51",
+    "title": "Ready Player One",
+    "author": "Ernest Cline",
+    "year": 2011,
+    "rating": 4.3,
+    "tags": [
+      "fiction",
+      "science-fiction"
+    ],
+    "description": "A quest for an Easter egg hidden in a virtual reality world."
+  },
+  {
+    "id": "b52",
+    "title": "Anna Karenina",
+    "author": "Leo Tolstoy",
+    "year": 1877,
+    "rating": 4.1,
+    "tags": [
+      "fiction",
+      "classic",
+      "romance"
+    ],
+    "description": "A complex tale of love, passion, and betrayal in Russian high society."
+  },
+  {
+    "id": "b53",
+    "title": "Quiet",
+    "author": "Susan Cain",
+    "year": 2012,
+    "rating": 4.1,
+    "tags": [
+      "psychology",
+      "non-fiction"
+    ],
+    "description": "The power of introverts in a world that can't stop talking."
+  },
+  {
+    "id": "b54",
+    "title": "Catch-22",
+    "author": "Joseph Heller",
+    "year": 1961,
+    "rating": 4.2,
+    "tags": [
+      "fiction",
+      "satire",
+      "classic"
+    ],
+    "description": "A satirical novel about the absurdity of war."
+  },
+  {
+    "id": "b55",
+    "title": "Surely You're Joking, Mr. Feynman!",
+    "author": "Richard P. Feynman",
+    "year": 1985,
+    "rating": 4.5,
+    "tags": [
+      "biography",
       "science",
       "non-fiction"
     ],
-    "description\r\n": "Cosmology for a general audience."
+    "description": "Adventures of a curious character."
+  },
+  {
+    "id": "b56",
+    "title": "The Chronicles of Narnia: The Lion, the Witch and the Wardrobe",
+    "author": "C.S. Lewis",
+    "year": 1950,
+    "rating": 4.3,
+    "tags": [
+      "fiction",
+      "fantasy",
+      "childrens"
+    ],
+    "description": "Four siblings discover the land of Narnia."
+  },
+  {
+    "id": "b57",
+    "title": "The 7 Habits of Highly Effective People",
+    "author": "Stephen Covey",
+    "year": 1989,
+    "rating": 4.1,
+    "tags": [
+      "self-help",
+      "productivity",
+      "non-fiction"
+    ],
+    "description": "Restoring the character ethic."
+  },
+  {
+    "id": "b58",
+    "title": "Ender's Game",
+    "author": "Orson Scott Card",
+    "year": 1985,
+    "rating": 4.3,
+    "tags": [
+      "fiction",
+      "science-fiction",
+      "military"
+    ],
+    "description": "Children are trained to fight an alien species."
+  },
+  {
+    "id": "b59",
+    "title": "Good to Great",
+    "author": "Jim Collins",
+    "year": 2001,
+    "rating": 4.1,
+    "tags": [
+      "business",
+      "non-fiction"
+    ],
+    "description": "Why some companies make the leap... and others don't."
+  },
+  {
+    "id": "b60",
+    "title": "Between the World and Me",
+    "author": "Ta-Nehisi Coates",
+    "year": 2015,
+    "rating": 4.4,
+    "tags": [
+      "social-justice",
+      "non-fiction",
+      "essay"
+    ],
+    "description": "A father's letter to his son about the realities of race in America."
+  },
+  {
+    "id": "b61",
+    "title": "The Girl with the Dragon Tattoo",
+    "author": "Stieg Larsson",
+    "year": 2005,
+    "rating": 4.1,
+    "tags": [
+      "fiction",
+      "thriller",
+      "mystery"
+    ],
+    "description": "The first novel in the Millennium series."
+  },
+  {
+    "id": "b62",
+    "title": "The Tipping Point",
+    "author": "Malcolm Gladwell",
+    "year": 2000,
+    "rating": 4.0,
+    "tags": [
+      "sociology",
+      "non-fiction"
+    ],
+    "description": "How little things can make a big difference."
   }
 ]
