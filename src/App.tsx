@@ -118,7 +118,6 @@ function App() {
       <OptionsCard
         filters={filters}
         handleToggleTagFilter={handleToggleTagFilter}
-        // resetTagFilters={resetTagFilters}
         resetFilters={resetFilters}
         titleSearchValue={titleSearchValue}
         setTitleSearchValue={setTitleSearchValue}
@@ -126,7 +125,6 @@ function App() {
         setAuthorSearchValue={setAuthorSearchValue}
         showFavoritesOnly={showFavoritesOnly}
         toggleShowFavoritesOnly={toggleShowFavoritesOnly}
-        //TODO: Addmin max rating filter controls
         setMinRatingFilter={handleSetMinRating}
         setMaxRatingFilter={handleSetMaxRating}
         filterModel={filterModel}
@@ -142,15 +140,6 @@ function App() {
           setFilterModel={setFilterModel}
           allowAdvancedFiltering={allowAdvancedFiltering}
         >
-          {/* <SortBar
-            toggleTitleDir={handleToggleTitleDirection}
-            toggleRatingDir={handleToggleRatingDirection}
-            authorSearchValue={authorSearchValue}
-            setAuthorSearchValue={setAuthorSearchValue}
-            titleSearchValue={titleSearchValue}
-            setTitleSearchValue={setTitleSearchValue}
-            sortOrder={sortOrder}
-          /> */}
         </BookList>
       </main>
       <Footer />

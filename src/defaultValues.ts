@@ -36,7 +36,6 @@ export const DEFAULT_RATING_FILTER: RatingFilter = {
   min: 0,
   max: 5,
   fnc: (num: number, { min, max }) => {
-    // console.log(" filtering rating:", num, "min:", min, " max:", max);
     if (min !== undefined && num < min) return false;
     if (max !== undefined && num > max) return false;
     return true;
