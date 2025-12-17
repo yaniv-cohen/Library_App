@@ -82,4 +82,4 @@ Another React Project I made - including both Front and Back end development htt
 * filter preview:_![filter preview:](image-1.png)
 * pagination:_![pagination:](image-2.png)
 * Advanced filtering mode_![Advanced filtering mode](image-3.png)
-* * The no libraries, ugly but effective first edition ![The no libraries, ugly but effective first edition](![ugly but effective library](image-4.png))
+* * The no libraries, ugly but effective first edition ![ugly but effective library](image-4.png)
