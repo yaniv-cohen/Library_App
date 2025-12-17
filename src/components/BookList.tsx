@@ -1,6 +1,24 @@
-import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
-import { ASC, Book, Filter, Sort } from "../types";
-import BookEntry from "./BookEntry";
+import {
+  Dispatch,
+  FC,
+  PropsWithChildren,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { Book, Filter, Sort } from "../types";
+import { DataTable } from "./entryTable";
+import { GridColDef, GridFilterModel } from "@mui/x-data-grid";
+import { FavoriteButton } from "./FavoriteButton";
+import {
+  Box,
+  CircularProgress,
+  Paper,
+  Rating,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 interface BooksList {
   filters: Filter;
@@ -8,6 +26,9 @@ interface BooksList {
   titleSearchValue: string;
   authorSearchValue: string;
   showFavoritesOnly: boolean;
+  filterModel: GridFilterModel;
+  setFilterModel: Dispatch<SetStateAction<GridFilterModel>>;
+  allowAdvancedFiltering: boolean;
 }
 
 const BookList: FC<PropsWithChildren<BooksList>> = ({
@@ -17,10 +38,13 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
   authorSearchValue,
   showFavoritesOnly,
   children,
+  filterModel,
+  setFilterModel,
+  allowAdvancedFiltering,
 }) => {
   const [entries, setEntries] = useState<Array<Book>>([]);
   const [favoriteBookIds, setFavoriteBookIds] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +56,7 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
     try {
       let path = "/books.json";
       const response = await fetch(path);
-      const wa = new Promise((resolve) => setTimeout(resolve, 1500)); //simulate loading time
+      const wa = new Promise((resolve) => setTimeout(resolve, 1800)); //simulate loading time
       await wa;
       if (!response.ok) {
         throw new Error(`error! Status: ${response.status}`);
@@ -62,7 +86,7 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
     fetchFavoriteBooks();
   }, []);
 
-  const visibleBooks = useMemo(() => {
+  const visibleBooks: Array<Book & { isFavorite: boolean }> = useMemo(() => {
     let serachEntries = [...entries];
     if (titleSearchValue) {
       serachEntries = serachEntries.filter((book: Book) => {
@@ -102,10 +126,17 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
     //favorites filter
     if (showFavoritesOnly) {
       filteredEntriesByRatingAndTag = filteredEntriesByRatingAndTag.filter(
-        (book) => favoriteBookIds.has(book.id)
+        (book) => favoriteBookIds.has(book.id),
       );
     }
-    let sortedEntries = [...filteredEntriesByRatingAndTag].sort((a, b) => {
+
+    let sortedEntries: Array<Book & { isFavorite: boolean }> = [
+      ...filteredEntriesByRatingAndTag,
+    ].map((book) => {
+      return { ...book, isFavorite: favoriteBookIds.has(book.id) };
+    });
+
+    sortedEntries = [...sortedEntries].sort((a, b) => {
       let out = 0;
       //TODO: check further optimization here
       for (let i = 0; i < sortOrder.length; i++) {
@@ -121,7 +152,14 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
 
     return sortedEntries;
     //  return filteredEntriesByRatingAndTag;
-  }, [entries, filters, sortOrder, titleSearchValue, authorSearchValue, showFavoritesOnly]);
+  }, [
+    entries,
+    filters,
+    sortOrder,
+    titleSearchValue,
+    authorSearchValue,
+    showFavoritesOnly,
+  ]);
 
   function toggleFavorite(bookId: string): void {
     const newFavorites = new Set(favoriteBookIds);
@@ -132,41 +170,149 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
     }
     localStorage.setItem(
       "favoriteBookIds",
-      JSON.stringify(Array.from(newFavorites))
+      JSON.stringify(Array.from(newFavorites)),
     );
     setFavoriteBookIds(newFavorites);
   }
 
   if (isLoading) {
-    return <h2>📚 Loading book data...</h2>;
+    if (isLoading) {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "200px", // Gives it breathing room
+          }}
+        >
+          <Stack spacing={2} alignItems="center">
+            <CircularProgress color="secondary" size={40} />
+            <Box sx={{ textAlign: "center" }}>
+              <Typography variant="h6" color="text.primary">
+                📚 Loading Books...
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                (Simulating network latency...)
+              </Typography>
+            </Box>
+          </Stack>
+        </Box>
+      );
+    }
   }
 
   if (error) {
-    return <h2 style={{ color: "red" }}>🚨 Error loading library: {error}</h2>;
+    return (
+      <Paper sx={{ padding: 10 }}>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography variant="caption" color="text.primary">
+            (🚨 Error loading library: )
+          </Typography>
+        </Box>
+      </Paper>
+    );
   }
 
   if (visibleBooks.length === 0) {
-    return <h2>No books found matching your criteria.</h2>;
+    return (
+      <Paper sx={{ padding: 10 }}>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography variant="h6" color="text.primary">
+            📚 No books found matching your criteria.
+          </Typography>
+        </Box>
+      </Paper>
+    );
   }
 
-  return (
-    <div>
-      <div className="horizontal-spaced">
-        <h2>{"Found " + visibleBooks.length + " books"}</h2>
-        {children}
-      </div>
-      <ul>
-        {visibleBooks.map((book) => (
-          <BookEntry
-            key={book.id}
-            book={book}
-            isFavorite={favoriteBookIds.has(book.id)}
-            toggleFavorite={toggleFavorite}
+  const columns: GridColDef<(typeof visibleBooks)[number]>[] = [
+    {
+      field: "actions",
+      headerName: "Favorite",
+      width: 100,
+      renderCell: (params) => {
+        const book = params.row as Book; // Cast the row data to your Book type
+        const isFavorite = favoriteBookIds.has(book.id); // Check the status
+
+        return (
+          <FavoriteButton
             showFavoritesOnly={showFavoritesOnly}
+            book={book}
+            isFavorite={isFavorite}
+            toggleFavorite={toggleFavorite} // Pass the handler
           />
-        ))}
-      </ul>
-    </div>
+        );
+      },
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "title",
+      headerName: "Title",
+      width: 600,
+      sortable: true,
+      filterable: allowAdvancedFiltering,
+    },
+
+    {
+      field: "author",
+      headerName: "Author",
+      width: 150,
+      sortable: true,
+      filterable: allowAdvancedFiltering,
+    },
+    {
+      field: "year",
+      headerName: "Year",
+      type: "string",
+      width: 120,
+      filterable: allowAdvancedFiltering,
+    },
+
+    {
+      field: "rating",
+      headerName: "Rating",
+      description: "number",
+      filterable: false,
+      width: 150,
+      renderCell: (params) => {
+        const book = params.row as Book; // Cast the row data to your Book type
+
+        return (
+          <Rating
+            name="book-rating"
+            value={book.rating}
+            precision={0.5}
+            tabIndex={-1}
+            readOnly
+          />
+        );
+      },
+    },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 90,
+      filterable: allowAdvancedFiltering,
+    },
+    {
+      field: "tags",
+      headerName: "Tags",
+      description: "Th",
+      width: 220,
+      filterable: allowAdvancedFiltering,
+      sortable: false,
+    },
+  ];
+
+  return (
+    <DataTable
+      rows={visibleBooks}
+      columns={columns}
+      filterModel={filterModel}
+      setFilterModel={setFilterModel}
+    ></DataTable>
   );
 };
 

@@ -1,26 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 // import logo from './logo.svg';
 import "./App.css";
 import BookList from "./components/BookList";
-import {
-  ASC,
-  Book,
-  DESC,
-  Filter,
-  RatingFilter,
-  TagFilter,
-  Sort,
-  SORTBY_RATING,
-  SORTBY_TITLE,
-  Tag,
-} from "./types";
+import { ASC, DESC, Sort, SORTBY_RATING, SORTBY_TITLE, Tag } from "./types";
 import OptionsCard from "./components/OptionsCard";
 import {
   DEFAULT_FILTER,
+  DEFAULT_FILTER_MODEL,
   DEFAULT_SORT,
   DEFAULT_TAG_FILTER,
 } from "./defaultValues";
-import SortBar from "./components/SortBar";
+import { GridFilterModel } from "@mui/x-data-grid";
+import { LibraryAppHeader } from "./components/LibraryHeader";
+import { BottomNavigation, Box } from "@mui/material";
+import { Footer } from "./components/Footer";
 
 //Should be any, but specific requirments prevent it
 function moveSortToFrontByMethod(arr: Array<Sort>, value: string) {
@@ -46,7 +39,9 @@ function App() {
   const [titleSearchValue, setTitleSearchValue] = useState("");
   const [authorSearchValue, setAuthorSearchValue] = useState("");
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-
+  const [allowAdvancedFiltering, setAllowAdvancedFiltering] = useState(false);
+  const [filterModel, setFilterModel] =
+    useState<GridFilterModel>(DEFAULT_FILTER_MODEL);
   //a bit of code duplication here, can be optimized later
   function handleToggleTitleDirection() {
     let newSortOrder = [...sortOrder];
@@ -154,22 +149,18 @@ function App() {
   function toggleShowFavoritesOnly() {
     setShowFavoritesOnly((prev) => !prev);
   }
-  function resetTagFilters() {
-    setFilters((prevFilters) => {
-      return {
-        ...prevFilters,
-        tagFilter: DEFAULT_TAG_FILTER,
-      };
-    });
-  }
   function resetFilters() {
     setFilters(DEFAULT_FILTER);
   }
 
   return (
     <div className="App">
-      <h1>Welcome to the Library:</h1>
-
+      <LibraryAppHeader
+        allowAdvancedFiltering={allowAdvancedFiltering}
+        toggleAllowAdvancedFiltering={() => {
+          setAllowAdvancedFiltering(!allowAdvancedFiltering);
+        }}
+      ></LibraryAppHeader>
       <OptionsCard
         filters={filters}
         toggleTitleDir={handleToggleTitleDirection}
@@ -186,6 +177,8 @@ function App() {
         //TODO: Addmin max rating filter controls
         setMinRatingFilter={handleSetMinRating}
         setMaxRatingFilter={handleSetMaxRating}
+        filterModel={filterModel}
+        setFilterModel={setFilterModel}
       />
       <main>
         <BookList
@@ -194,8 +187,11 @@ function App() {
           titleSearchValue={titleSearchValue}
           authorSearchValue={authorSearchValue}
           showFavoritesOnly={showFavoritesOnly}
+          filterModel={filterModel}
+          setFilterModel={setFilterModel}
+          allowAdvancedFiltering={allowAdvancedFiltering}
         >
-          <SortBar
+          {/* <SortBar
             toggleTitleDir={handleToggleTitleDirection}
             toggleRatingDir={handleToggleRatingDirection}
             authorSearchValue={authorSearchValue}
@@ -203,9 +199,10 @@ function App() {
             titleSearchValue={titleSearchValue}
             setTitleSearchValue={setTitleSearchValue}
             sortOrder={sortOrder}
-          />
+          /> */}
         </BookList>
       </main>
+      <Footer />
     </div>
   );
 }

@@ -43,7 +43,7 @@ export interface RatingFilter {
   max: number;
   fnc: (
     num: number,
-    minMax: { min: number | undefined; max: number | undefined }
+    minMax: { min: number | undefined; max: number | undefined },
   ) => boolean;
 }
 
@@ -60,4 +60,4 @@ export interface Filter {
 export type PageState = {
   currentPage: number;
   itemsPerPage: number;
-}
+};

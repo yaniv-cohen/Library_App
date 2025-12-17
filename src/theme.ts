@@ -26,8 +26,8 @@ declare module "@mui/material/styles" {
 // Define the custom color palette
 const libraryPalette = {
   // Primary: A calming, deep blue for main elements (AppBar, primary buttons)
-primary: {
-    main: "#1B5E20", 
+  primary: {
+    main: "#1B5E20",
     light: "#4c8c4a",
     dark: "#003300",
     contrastText: "#FFFFFF",
@@ -39,8 +39,8 @@ primary: {
     dark: "#C68400",
     contrastText: "#000000",
   },
-background: {
-    default: "#F9F9F9", 
+  background: {
+    default: "#F9F9F9",
     paper: "#FFFFFF",
   },
   text: {
@@ -133,7 +133,5 @@ export const customTheme = createTheme({
         },
       },
     },
-    
   },
 });
-

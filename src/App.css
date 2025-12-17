@@ -5,29 +5,24 @@
 .focused {
   outline: 2px solid #252525;
 }
-ul {
-  list-style: none;
+
+input[type="number"] {
+  /* -webkit-appearance:inherit; */
+  width: 50px;
+  height: 30px;
+  background: white;
+  border-radius: 5px;
+  border: 2px solid #555;
 }
 
-
-input[type='number'] {
-    /* -webkit-appearance:inherit; */
-    width:50px;
-    height:30px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
+input[type="checkbox"] {
+  /* -webkit-appearance:inherit; */
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 5px;
+  border: 2px solid #555;
 }
-
-input[type='checkbox'] {
-    /* -webkit-appearance:inherit; */
-    width:30px;
-    height:30px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
-}
-
 
 /* 1. Reset the ugly default outline globally */
 *:focus {
@@ -39,44 +34,21 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible {
   border-radius: 4px;
-  outline: 2px dashed #007bff; /* Use a distinct style for clarity */
+  /* outline: 2px dashed ; */
   outline-offset: 2px;
 }
 
+#AppBar {
+  /* border-radius: 0 0 40px 40px; */
+  border-radius: 0;
+  /* background-color: chocolate; */
+}
 #optionsHeader {
-  background-color: antiquewhite;
+  background-color: rgb(255, 247, 237);
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 20px;
-}
-
-.vertical-centered {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
-.horizontal-centered {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.card {
-  background-color: azure;
-  padding: 10px;
-  border-radius: 0 20px 20px 0;
-}
-
-.horizontal-spaced {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.sortBox {
-  background-color: beige;
-  padding: 10px;
 }
 
 .capitalized {
