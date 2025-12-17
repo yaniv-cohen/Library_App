@@ -5,6 +5,7 @@
 ### **Project Overview**
 
 A modern React-based Library Catalog designed for academic and public browsing. This application leverages **TypeScript** for robust type safety and **Material UI (MUI)** to deliver a refined "Ivy League" aesthetic, focusing on visual hierarchy, accessibility, and high-performance data filtering. I also used AI tools for generating a new logo to fit the theme.
+The website simulates delay for requests, it actually runs faster than it looks in the demo, because it doesn't actually need to fetch any data or sort big data.
 
 This is the first project I have made primarily using MUI. After a long pause from web development, I had a great time making this page. I started by coding the filtering and sorting system myself, which was a successful learning experience—the website was functional but lacked the visual language of a mature application. MUI upgraded my design tremendously.
 Before integrating MUI, I built the core logic from scratch (available in the no-libs branch). By developing an abstract system for multi-step sorting and custom filtering, I gained a first-hand understanding of the complexities involved in managing state and flexible data presentation in large-scale applications.
