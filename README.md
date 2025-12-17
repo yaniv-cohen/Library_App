@@ -1,5 +1,7 @@
 # 📚 Digital Library Catalog
 
+[Live demo:](https://yaniv-cohen.github.io/Library_App/)
+
 ### **Project Overview**
 
 A modern React-based Library Catalog designed for academic and public browsing. This application leverages **TypeScript** for robust type safety and **Material UI (MUI)** to deliver a refined "Ivy League" aesthetic, focusing on visual hierarchy, accessibility, and high-performance data filtering.
@@ -9,7 +11,7 @@ This is the first project I have made primarily using MUI. After a long pause fr
 ### **Tech Stack**
 
 - **Frontend:** React 18
-- **Styling:** Material UI (MUI) v5
+- **Styling:** Material UI (MUI)
 - **Language:** TypeScript
 - **Deployment:** GitHub Pages
 
@@ -37,7 +39,7 @@ To run this project locally, ensure you have **Node.js** installed, then follow 
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/library-app.git
+git clone https://github.com/yaniv-cohen/Library_App
 cd library-app
 
 ```
