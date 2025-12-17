@@ -40,7 +40,7 @@ To run this project locally, ensure you have **Node.js** installed, then follow 
 
 ```bash
 git clone https://github.com/yaniv-cohen/Library_App
-cd library-app
+cd Library_App
 
 ```
 
