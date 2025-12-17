@@ -1,5 +1,4 @@
 import { InputAdornment, TextField, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import SearchIcon from "@mui/icons-material/Search";
@@ -71,36 +70,6 @@ function SearchBar({
               ),
             }}
           />
-        </Stack>
-      </Stack>
-    </Paper>
-  );
-  return (
-    <Paper sx={{ minWidth: 275 }}>
-      <Stack direction={"row"}>
-        <Typography>Search:</Typography>
-        <Stack direction={"column"}>
-          <Box className="vertical-centered">
-            <label htmlFor="titleTextInput">Search Title:</label>
-            <TextField
-              inputMode="search"
-              name="titleTextInput"
-              id="titleTextInput"
-              placeholder="Search Title"
-              onChange={(e) => setTypedTitleSearchValue(e.target.value)}
-              value={typedTitleSearchValue}
-            />
-          </Box>
-          <Box className="vertical-centered">
-            <label htmlFor="authorTextInput">Search Author:</label>
-            <input
-              name="authorTextInput"
-              id="authorTextInput"
-              placeholder="Search Author"
-              onChange={(e) => setTypedAuthorSearchValue(e.target.value)}
-              value={typedAuthorSearchValue}
-            />
-          </Box>
         </Stack>
       </Stack>
     </Paper>

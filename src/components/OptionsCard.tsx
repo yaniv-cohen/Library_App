@@ -21,8 +21,6 @@ const OptionsCard = ({
   setFilterModel,
 }: {
   filters: Filter;
-  toggleTitleDir: { (): void };
-  toggleRatingDir: { (): void };
   handleToggleTagFilter: { (tag: Tag): void };
   resetFilters: { (): void };
   titleSearchValue: string;

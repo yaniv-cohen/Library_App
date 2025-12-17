@@ -3,7 +3,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuBookIcon from "@mui/icons-material/MenuBook"; // A good icon for a library app
 import { useMenu } from "../hooks/useMenu";
-
 import Box from "@mui/material/Box";
 import AccountCircle from "@mui/icons-material/AccountCircle"; // Icon for user menu
 import Settings from "@mui/icons-material/Settings"; // Icon for user menu
@@ -23,7 +22,6 @@ import {
   Stack,
   Switch,
 } from "@mui/material";
-import { useState } from "react";
 
 // Assume you are using this component inside App.tsx where the AppBar should be
 
@@ -61,8 +59,8 @@ export const LibraryAppHeader = ({
               maxHeight: { xs: 233, md: 167 },
               maxWidth: { xs: 350, md: 250 },
             }}
-            alt="Books"
-            src="./logo.png"
+            alt="logo"
+            src={`${process.env.PUBLIC_URL}/logo.png`}
           ></Box>
           {/* Main App Title */}
           <Box>

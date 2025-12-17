@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Book, Filter, Sort } from "../types";
+import { Book, Filter } from "../types";
 import { DataTable } from "./entryTable";
 import { GridColDef, GridFilterModel } from "@mui/x-data-grid";
 import { FavoriteButton } from "./FavoriteButton";
@@ -22,7 +22,6 @@ import {
 
 interface BooksList {
   filters: Filter;
-  sortOrder: Sort[];
   titleSearchValue: string;
   authorSearchValue: string;
   showFavoritesOnly: boolean;
@@ -33,7 +32,6 @@ interface BooksList {
 
 const BookList: FC<PropsWithChildren<BooksList>> = ({
   filters,
-  sortOrder,
   titleSearchValue,
   authorSearchValue,
   showFavoritesOnly,
@@ -44,7 +42,7 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
 }) => {
   const [entries, setEntries] = useState<Array<Book>>([]);
   const [favoriteBookIds, setFavoriteBookIds] = useState<Set<string>>(
-    new Set(),
+    new Set()
   );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +52,7 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
     setError(null); // Clear previous errors
 
     try {
-      let path = "/books.json";
+      let path = `${process.env.PUBLIC_URL}/books.json`;
       const response = await fetch(path);
       const wa = new Promise((resolve) => setTimeout(resolve, 1800)); //simulate loading time
       await wa;
@@ -103,8 +101,6 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
       });
     }
 
-    //this can be done for arbitrary number of filters, but for now we have only 2
-    //can use the same approach like sorting, of having an array of filter functions
     let filteredEntriesByTag = serachEntries.filter((book) => {
       //tag filter
       return filters.tagFilter.fnc(book.tags, filters.tagFilter.selectedTags);
@@ -122,40 +118,24 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
     } else {
       filteredEntriesByRatingAndTag = filteredEntriesByTag;
     }
-
     //favorites filter
     if (showFavoritesOnly) {
       filteredEntriesByRatingAndTag = filteredEntriesByRatingAndTag.filter(
-        (book) => favoriteBookIds.has(book.id),
+        (book) => favoriteBookIds.has(book.id)
       );
     }
 
-    let sortedEntries: Array<Book & { isFavorite: boolean }> = [
+    let out: Array<Book & { isFavorite: boolean }> = [
       ...filteredEntriesByRatingAndTag,
     ].map((book) => {
       return { ...book, isFavorite: favoriteBookIds.has(book.id) };
     });
 
-    sortedEntries = [...sortedEntries].sort((a, b) => {
-      let out = 0;
-      //TODO: check further optimization here
-      for (let i = 0; i < sortOrder.length; i++) {
-        //starting from most to least significant
-        let sortOption = sortOrder[i];
-        out = sortOption.fnc(a, b, sortOption.direction);
-        if (out !== 0) {
-          return out;
-        }
-      }
-      return 0;
-    });
-
-    return sortedEntries;
+    return out;
     //  return filteredEntriesByRatingAndTag;
   }, [
     entries,
     filters,
-    sortOrder,
     titleSearchValue,
     authorSearchValue,
     showFavoritesOnly,
@@ -170,7 +150,7 @@ const BookList: FC<PropsWithChildren<BooksList>> = ({
     }
     localStorage.setItem(
       "favoriteBookIds",
-      JSON.stringify(Array.from(newFavorites)),
+      JSON.stringify(Array.from(newFavorites))
     );
     setFavoriteBookIds(newFavorites);
   }
