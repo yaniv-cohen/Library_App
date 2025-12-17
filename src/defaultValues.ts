@@ -1,3 +1,4 @@
+import { GridFilterModel, GridLogicOperator } from "@mui/x-data-grid";
 import {
   ASC,
   Book,
@@ -67,4 +68,9 @@ export const DEFAULT_TAG_FILTER: TagFilter = {
 export const DEFAULT_FILTER: Filter = {
   tagFilter: DEFAULT_TAG_FILTER,
   ratingFilter: DEFAULT_RATING_FILTER,
+};
+
+export const DEFAULT_FILTER_MODEL: GridFilterModel = {
+  items: [],
+  logicOperator: GridLogicOperator.And,
 };

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import Filters from "./Filters";
-import SortBar from "./SortBar";
-import { Filter, Sort, Tag } from "../types";
+import { Filter, Tag } from "../types";
 import { useDebounce } from "../hooks/useDebounce";
 import { SEARCH_DELAY } from "../defaultValues";
+import { GridFilterModel } from "@mui/x-data-grid";
+import Toolbar from "@mui/material/Toolbar";
 
 const OptionsCard = ({
   filters,
@@ -16,6 +17,8 @@ const OptionsCard = ({
   toggleShowFavoritesOnly,
   setMinRatingFilter,
   setMaxRatingFilter,
+  filterModel,
+  setFilterModel,
 }: {
   filters: Filter;
   toggleTitleDir: { (): void };
@@ -30,6 +33,8 @@ const OptionsCard = ({
   toggleShowFavoritesOnly: { (): void };
   setMinRatingFilter: { (num: number): void };
   setMaxRatingFilter: { (num: number): void };
+  filterModel: GridFilterModel;
+  setFilterModel: Dispatch<SetStateAction<GridFilterModel>>;
 }) => {
   const [typedTitleSearchValue, setTypedTitleSearchValue] =
     useState<string>("");
@@ -48,15 +53,13 @@ const OptionsCard = ({
   }, [debouncedAuthor, setAuthorSearchValue]);
 
   return (
-    <header id="optionsHeader">
-      <div className="card">
-        <SearchBar
-          typedTitleSearchValue={typedTitleSearchValue}
-          setTypedTitleSearchValue={setTypedTitleSearchValue}
-          typedAuthorSearchValue={typedAuthorSearchValue}
-          setTypedAuthorSearchValue={setTypedAuthorSearchValue}
-        />
-      </div>
+    <Toolbar id="optionsHeader">
+      <SearchBar
+        typedTitleSearchValue={typedTitleSearchValue}
+        setTypedTitleSearchValue={setTypedTitleSearchValue}
+        typedAuthorSearchValue={typedAuthorSearchValue}
+        setTypedAuthorSearchValue={setTypedAuthorSearchValue}
+      />
       <Filters
         selectedTags={filters.tagFilter.selectedTags}
         ratingFilterMax={filters.ratingFilter.max}
@@ -65,21 +68,12 @@ const OptionsCard = ({
         resetFilters={resetFilters}
         setMinRatingFilter={setMinRatingFilter}
         setMaxRatingFilter={setMaxRatingFilter}
+        filterModel={filterModel}
+        setFilterModel={setFilterModel}
+        showFavoritesOnly={showFavoritesOnly}
+        toggleShowFavoritesOnly={toggleShowFavoritesOnly}
       />
-
-      <input
-        name="favoritesOnlyToggle"
-        type="checkbox"
-        className="checkbox"
-        id="favoritesOnlyToggle"
-        checked={showFavoritesOnly}
-        onChange={toggleShowFavoritesOnly}
-      />
-      <label htmlFor="favoritesOnlyToggle">
-        Show favorites only:
-        {showFavoritesOnly ? " Yes" : " No"}
-      </label>
-    </header>
+    </Toolbar>
   );
 };
 

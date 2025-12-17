@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /**
- * Custom hook to debounce a value, delaying the update of the returned value 
+ * Custom hook to debounce a value, delaying the update of the returned value
  * until after the specified delay has passed without any further changes to the input value.
  * * @param value The value to debounce (e.g., a text input from a local state)
  * @param delay The delay in milliseconds (e.g., 400)
@@ -18,8 +18,8 @@ export function useDebounce<T>(value: T, delay: number): T {
     }, delay);
 
     // CRITICAL CLEANUP FUNCTION:
-    // If 'value' changes before the delay runs out, the previous timeout 
-    // is cleared, and a new timer is set up. This ensures the update 
+    // If 'value' changes before the delay runs out, the previous timeout
+    // is cleared, and a new timer is set up. This ensures the update
     // only happens once the user pauses typing.
     return () => {
       clearTimeout(handler);
